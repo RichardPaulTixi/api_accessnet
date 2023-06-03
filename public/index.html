@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SSH Client</title>
+  </head>
+  <body>
+    <h1>Ingresar a la OLT</h1>
+    <form id="sshForm">
+      <label for="ip">IP:</label>
+      <select id="ip" name="ip" required>
+        <option value="172.16.195.2">BAÑOS</option>    
+        <option value="172.30.32.2">MONAY</option>
+        <option value="172.16.197.2">CHALLUABAMBA</option>
+        <option value="172.16.196.2">AZOGUES</option>
+        <option value="45.71.202.211">MIRAFLORES</option>
+      </select>
+      <br><br>
+      <label for="username">Usuario:</label>
+      <input type="text" id="username" name="username" value="accessnet" required readonly><br><br>
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" name="password" value="access2022net" required readonly><br><br>
+      <label for="command1">PON:</label>
+      <input id="command1" name="command1" required><br><br>
+
+      <input type="submit" value="Ejecutar">
+    </form>
+    <pre id="output"></pre>
+
+    <script>
+      const sshForm = document.getElementById('sshForm');
+      const output = document.getElementById('output');
+
+      sshForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(sshForm);
+        const response = await fetch('/ssh', {
+          method: 'POST',
+          body: new URLSearchParams(formData),
+        });
+
+        const data = await response.text();
+        output.textContent = data;
+      });
+    </script>
+  </body>
+</html>
